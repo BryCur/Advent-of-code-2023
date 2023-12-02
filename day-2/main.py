@@ -1,6 +1,7 @@
 from utils import *
 
-totalValue = 0
+totalValuePossibleGame = 0
+totalPowerOfSets = 0
 
 with open("input.txt") as file: 
     lines = file.readlines()
@@ -8,6 +9,14 @@ with open("input.txt") as file:
     for line in lines:
         sequence = getSequence(line)
         if isSequencePossible(sequence):
-            totalValue += getGameId(line)
+            totalValuePossibleGame += getGameId(line)
+        
+        minDiceRequired = getMinDiceRequired(sequence)
+        power = 1
+        for val in minDiceRequired.values():
+            power *= val
 
-print(totalValue)
+        totalPowerOfSets += power
+
+print(f"part 1: sum possible games: {totalValuePossibleGame}")
+print(f"part 2: sum of power of set: {totalPowerOfSets}")

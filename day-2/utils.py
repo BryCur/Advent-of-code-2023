@@ -24,3 +24,19 @@ def isSequencePossible(sequence: list[str]) -> bool:
     return True
 
 
+def getMinDiceRequired(sequence: list[str]) -> dict:
+    minValues = {
+        "blue": 0,
+        "red": 0,
+        "green": 0
+    }
+
+    for draft in sequence:
+        drafted_dice = draft.split(",")
+        for die in drafted_dice: 
+            [count, colour] = die.strip().split(" ")
+            if count.isdigit() and colour in minValues.keys():
+                minValues[colour] = max(int(count), minValues[colour])
+
+    return minValues
+
