@@ -1,22 +1,26 @@
+MAX_VALUES = {
+    "blue": 14,
+    "green": 13,
+    "red": 12
+}
 
-DIGITS_WORDS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+def getGameId(line: str) -> int :
+    split_id_data = line.split(":")
+    str_game_id = split_id_data[0].split(" ")[-1]
+    return int(str_game_id) if str_game_id.isdigit() else 0
 
-def exctractDigits(input: str) -> list[int]:
-    lower_input = input.lower()
-    sequence: list[int] = []
+def getSequence(line: str) -> list: 
+    split_id_data = line.split(":")
+    return split_id_data[-1].split(";")
 
-    for i, char in enumerate(lower_input):
-        if char.isnumeric():
-            sequence.append(int(char))
-        else:
-            for word in DIGITS_WORDS:
-                if lower_input[i:i+len(word)] == word:
-                    sequence.append(DIGITS_WORDS.index(word) +1)
-                    break
-                
-    return sequence
-
-def getValueFromSequence(seq: list[int]): 
-    return seq[0] * 10 + seq[-1]
-
+def isSequencePossible(sequence: list[str]) -> bool:
+    for draft in sequence:
+        drafted_dice = draft.split(",")
+        for die in drafted_dice: 
+            [count, colour] = die.strip().split(" ")
+            if count.isdigit() and colour in MAX_VALUES.keys() and int(count) > MAX_VALUES[colour]:
+                return False
     
+    return True
+
+
