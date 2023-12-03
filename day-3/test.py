@@ -30,12 +30,12 @@ class TestUtils(unittest.TestCase):
         self.assertListEqual([(3,5), (3,6)], getAdjacentNumberPositionsFrom(self.test_matrix, 2,6))
 
     def test_should_return_whole_number_on_position(self):
-        self.assertEqual(12, consumeNumberAtPosition(self.test_matrix, 0, 1))
+        self.assertEqual(12, consumeAndReturnNumberAtPosition(self.test_matrix, 0, 1))
 
     def test_should_not_read_same_number_twice_when_asked_from_different_positions(self):
         copy_of_test_matrix = self.test_matrix.copy()
-        self.assertEqual(23, consumeNumberAtPosition(copy_of_test_matrix, 3, 5))
-        self.assertEqual(0, consumeNumberAtPosition(copy_of_test_matrix, 3, 6))
+        self.assertEqual(23, consumeAndReturnNumberAtPosition(copy_of_test_matrix, 3, 5))
+        self.assertEqual(0, consumeAndReturnNumberAtPosition(copy_of_test_matrix, 3, 6))
 
 
 if __name__ == '__main__':

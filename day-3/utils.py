@@ -27,10 +27,17 @@ def getAdjacentNumberPositionsFrom(matrix: list[str], centerX: int, centerY: int
 
     return positions
 
-def consumeNumberAtPosition(matrix: list[str], postStartX: int, posStartY: int) -> int:
+def consumeAndReturnNumberAtPosition(matrix: list[str], postStartX: int, posStartY: int) -> int:
 
     line: str = matrix[postStartX]
 
+    numberStartIndex, numberStopIndex = getNumberStartAndEndPosOnLine(line, posStartY)
+
+    number = int(line[numberStartIndex:numberStopIndex])
+    matrix[postStartX] = eraseNumberAtPostion(line, numberStartIndex, numberStopIndex)
+    return number
+
+def getNumberStartAndEndPosOnLine(line: str, posStartY: int) -> (int, int):
     numberStartIndex = posStartY
     while numberStartIndex > 0 and line[numberStartIndex-1].isdigit():
         numberStartIndex -= 1
@@ -39,7 +46,8 @@ def consumeNumberAtPosition(matrix: list[str], postStartX: int, posStartY: int) 
     while numberStopIndex < len(line) and line[numberStopIndex].isdigit():
         numberStopIndex += 1
 
-    number = int(line[numberStartIndex:numberStopIndex])
-    new_line = line[:numberStartIndex] + ("0" * (numberStopIndex -numberStartIndex)) + line[numberStopIndex:]
-    matrix[postStartX] = new_line
-    return number
+    return (numberStartIndex, numberStopIndex)
+
+def eraseNumberAtPostion(line: str, fromIndex: int, toIndex: int):
+    new_line = line[:fromIndex] + ("0" * (toIndex -fromIndex)) + line[toIndex:]
+    return new_line
