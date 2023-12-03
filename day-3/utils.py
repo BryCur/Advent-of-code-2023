@@ -51,3 +51,13 @@ def getNumberStartAndEndPosOnLine(line: str, posStartY: int) -> (int, int):
 def eraseNumberAtPostion(line: str, fromIndex: int, toIndex: int):
     new_line = line[:fromIndex] + ("0" * (toIndex -fromIndex)) + line[toIndex:]
     return new_line
+
+def countAllUniqueNumberAroundPos(matrix: list[str], centerX: int, centerY: int): 
+    digitPos = getAdjacentNumberPositionsFrom(matrix, centerX, centerY)
+    setNumberPos: set = set()
+
+    for (posX, posY) in digitPos:
+        start, end = getNumberStartAndEndPosOnLine(matrix[posX], posY)
+        setNumberPos.add(((posX,start), (posX, end)))
+    
+    return len(setNumberPos)
