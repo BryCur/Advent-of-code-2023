@@ -4,14 +4,14 @@ from utils import *
 class TestUtils(unittest.TestCase):
     test_matrix = [
         "12&....5",
-        "...#....",
-        "......*.",
+        "......#.",
+        ".....*..",
         ".....23."
     ]
 
     def test_supported_symboles(self):
         should_all_pass = "+\"*%&/()=?!@#'^"
-        should_all_fail = ".1234567890qwertzuzuiopasdfghjklyxcvbnm"
+        should_all_fail = ". 1234567890qwertzuzuiopasdfghjklyxcvbnm"
 
         for char in should_all_fail:
             self.assertFalse(isCharSupportedSymbole(char))
@@ -21,8 +21,8 @@ class TestUtils(unittest.TestCase):
 
     def test_extract_digit_returns_a_list(self): 
         self.assertEqual((0,2),findNextSupportedSymbolInMatrix(self.test_matrix, 0,0))
-        self.assertEqual((1,3),findNextSupportedSymbolInMatrix(self.test_matrix, 0,3))
-        self.assertEqual((2,6),findNextSupportedSymbolInMatrix(self.test_matrix, 1,4))
+        self.assertEqual((1,6),findNextSupportedSymbolInMatrix(self.test_matrix, 0,3))
+        self.assertEqual((2,5),findNextSupportedSymbolInMatrix(self.test_matrix, 1,7))
         self.assertEqual((-1, -1), findNextSupportedSymbolInMatrix(self.test_matrix, 3,0))
 
     def test_should_give_all_number_position_from_center(self): 

@@ -2,14 +2,14 @@
 
 def findNextSupportedSymbolInMatrix(matrix: list[str], startX: int, startY: int) -> (int, int):
     for x in range(startX, len(matrix)):
-        for y in range(startY, len(matrix[x])): 
+        for y in range(startY if startX == x else 0, len(matrix[x])): 
             if isCharSupportedSymbole(matrix[x][y]) :
                 return (x, y)
     
     return (-1,-1)
             
 def isCharSupportedSymbole(char: str):
-    return not char.isalnum() and char != '.'
+    return not char.isalnum() and not char.isspace() and char != '.'
 
 
 def getAdjacentNumberPositionsFrom(matrix: list[str], centerX: int, centerY: int) -> list[(int, int)]: 
@@ -18,11 +18,10 @@ def getAdjacentNumberPositionsFrom(matrix: list[str], centerX: int, centerY: int
     startPosX = max(0, centerX-1)
     startPosY = max(0, centerY-1)
 
-    stopPosX = min(len(matrix), centerX+1)
-    for x in range(startPosX, stopPosX+1): # range does not include the stopIndex
-        stopPosY = min(len(matrix[x]), centerY+1)
-        for y in range(startPosY, stopPosY+1): 
-            currChar = matrix[x][y]
+    stopPosX = min(len(matrix), centerX+2) # range does not include the stopIndex
+    for x in range(startPosX, stopPosX): 
+        stopPosY = min(len(matrix[x]), centerY+2)
+        for y in range(startPosY, stopPosY): 
             if matrix[x][y].isdigit():
                 positions.append((x,y))
 
