@@ -28,9 +28,6 @@ while True:
                     number_at_pos = consumeAndReturnNumberAtPosition(matrix, *pos)
                     product *= number_at_pos if number_at_pos != 0 else 1
                 totalValue += product
-
-
-
     
     currY += 1
 
