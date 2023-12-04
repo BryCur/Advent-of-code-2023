@@ -1,5 +1,5 @@
 import collections
-def getGameId(line: str) -> int :
+def getCardId(line: str) -> int :
     split_id_data = line.split(":")
     str_game_id = split_id_data[0].split(" ")[-1]
     return int(str_game_id) if str_game_id.isdigit() else 0
