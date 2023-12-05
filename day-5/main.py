@@ -10,7 +10,11 @@ with open("day-5/input.txt") as f:
     current_map: str
     for line in lines:
         if "seeds:" in line: 
-            seeds = list(map(int, line.split(":")[1].strip().split(" ")))
+            # part 1
+            #seeds = list(map(int, line.split(":")[1].strip().split(" ")))
+            # part 2
+            seeds = parseSeedLine(list(map(int, line.split(":")[1].strip().split(" "))))
+
         elif "map:" in line: 
             fromToLabel = line.split(" ")[0].split("-to-")
             current_map = fromToLabel[0]
@@ -22,7 +26,6 @@ with open("day-5/input.txt") as f:
             maps[current_map]["exceptionMapping"].append(line)
 
 
-# part 1
 minLocation = -1
 for seed in seeds:
     currentResourceKey = "seed"
