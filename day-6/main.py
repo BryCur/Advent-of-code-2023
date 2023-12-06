@@ -1,4 +1,5 @@
 from utils import *
+import functools
 
 totalValue = 0
 
@@ -39,3 +40,15 @@ for raceIndex in range(len(timeList)):
     result *= waysToWin
 
 print(f"part 1 - ways to win: {result}")
+
+
+# part 2
+maxTime = int(functools.reduce(lambda a,b: a+b, input_timeList))
+maxDistance = int(functools.reduce(lambda a,b: a+b, input_distanceList))
+
+minTime = getMinPushtimetoWin(maxTime, maxDistance)
+maxTime = getMaxPushtimetoWin(maxTime, maxDistance)
+
+waysToWin = (maxTime - minTime) +1
+
+print(f"part 2 - ways to win: {waysToWin}")
