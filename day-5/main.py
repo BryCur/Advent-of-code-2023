@@ -3,17 +3,14 @@ from utils import *
 totalValue = 0
 
 maps: dict = {}
-seeds: list[int]
+seed_input: list[int]
 
 with open("day-5/input.txt") as f:
     lines = f.readlines()
     current_map: str
     for line in lines:
         if "seeds:" in line: 
-            # part 1
-            #seeds = list(map(int, line.split(":")[1].strip().split(" ")))
-            # part 2
-            seeds = parseSeedLine(list(map(int, line.split(":")[1].strip().split(" "))))
+            seed_input = list(map(int, line.split(":")[1].strip().split(" ")))
 
         elif "map:" in line: 
             fromToLabel = line.split(" ")[0].split("-to-")
@@ -26,8 +23,9 @@ with open("day-5/input.txt") as f:
             maps[current_map]["exceptionMapping"].append(line)
 
 
+# part 1
 minLocation = -1
-for seed in seeds:
+for seed in seed_input:
     currentResourceKey = "seed"
     currentNumber = seed
     while currentResourceKey in maps:
@@ -42,4 +40,30 @@ for seed in seeds:
         elif currentResourceKey == "location":
             minLocation = currentNumber
 
-print(minLocation)
+print(f"part 1 - min location: {minLocation}")
+
+
+#part 2
+minLocation = -1
+seed_input_copy = seed_input.copy()
+while len(seed_input_copy) > 2:
+    seedRangeSize = seed_input_copy.pop()
+    seedRangeStart = seed_input_copy.pop()
+    
+    currentResourceKey = "seed"
+    currentranges: list = [(seedRangeStart, seedRangeSize)]
+    while currentResourceKey in maps:
+        exceptions = maps[currentResourceKey]["exceptionMapping"]
+        
+        nextRanges = []
+        for range in currentranges:
+            current_exceptions, toExcludeFrom = getMatchingRangeToExceptionMapping(exceptions, range)
+            regular_range = excludeRangesFromRange(toExcludeFrom, range)
+            currentranges = current_exceptions + regular_range
+            
+        currentResourceKey = maps[currentResourceKey]["to"]
+
+        if currentResourceKey == "location" and minLocation != -1:
+            minLocation = min(sorted(currentranges)[0][0], minLocation)
+        elif currentResourceKey == "location":
+            minLocation = sorted(currentranges)[0][0]
