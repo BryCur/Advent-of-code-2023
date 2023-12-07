@@ -9,7 +9,7 @@ with open("day-7/input.txt") as f:
         split_line = line.split()
         processed_input.append((split_line[0], int(split_line[1])))
 
-sorted_list = sorted(processed_input, key=functools.cmp_to_key(hand_combination_sort))
+sorted_list = sorted(processed_input, key=functools.cmp_to_key(hand_combination_sort_part2))
 
 total= 0
 
