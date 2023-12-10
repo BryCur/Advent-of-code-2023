@@ -1,5 +1,5 @@
 from utils import *
-import functools
+import math
 
 directionSequence: str
 nodeMap : dict = {}
@@ -32,14 +32,40 @@ else:
     step_count = 0
     currentNodes = startingNodes
 
-    print(currentNodes)
+    print(f"depart nodes: {currentNodes}")
+    starting_map = { x: [] for x in currentNodes }
+    _shouldContinue = True
+    LENGTH_STOP = 1
     
-    while shouldContinue(currentNodes):
+    while _shouldContinue: #(currentNodes):
         nextNodes = []
         for node in currentNodes:
-            nextNodes.append(getNextStep(nodeMap, node, directionSequence[step_count%len(directionSequence)]))
+            next_node = getNextStep(nodeMap, node, directionSequence[step_count%len(directionSequence)])
+            if next_node[-1] == "Z":
+                start_node = startingNodes[currentNodes.index(node)]
+
+                arrival = Arrival(next_node, step_count+1, 0 if len(starting_map[start_node]) < 1 else starting_map[start_node][-1].totalStepRequired, step_count%len(directionSequence))
+                starting_map[start_node].append(arrival)
+
+                for item in starting_map.values():
+                    if len(item) < LENGTH_STOP:
+                        _shouldContinue = True
+                        break
+                    else: 
+                        _shouldContinue = False
+
+            nextNodes.append(next_node)
         
         step_count += 1
         currentNodes = nextNodes
 
-    print(f"Part 2 - step from AAA to ZZZ: {step_count}")
+    required_steps_for_starts = []
+    for key, val in starting_map.items():
+        required_steps_for_starts.append(val[-1].relativeStepRequired)
+        print(f"Starting node {key} : {val}")
+
+    
+    print(required_steps_for_starts)
+    required_steps = math.lcm(*required_steps_for_starts)
+
+    print(f"Part 2 - step from A to Z: {required_steps}")
