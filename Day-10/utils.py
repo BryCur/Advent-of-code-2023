@@ -12,12 +12,12 @@ pipes_connecting_east: set = set(['-', 'L', 'F'])
 pipes_connecting_west: set = set(['-', '7', 'J'])
 
 
-def findStartingPos(matrix: list[str], startChar: str) -> tuple: 
+def findStartingPos(matrix: list[list[str]], startChar: str) -> tuple: 
      for i, line in enumerate(matrix):
         if startChar in line:
             return (i, line.index(startChar))
 
-def recursive_getPath(matrix: list[str], position: tuple, previous_steps: list = []) -> list :
+def recursive_getPath(matrix: list[list[str]], position: tuple, previous_steps: list = []) -> list :
     (currX, currY) = position
     curPipe = matrix[currX][currY]
 
@@ -106,7 +106,7 @@ def getStartingPipePossibleShape(matrix: list[int], position: tuple) -> set:
 
 
 
-def iterative_getPath (matrix: list[str], starting_pos: tuple) -> list :
+def iterative_getPath (matrix: list[list[str]], starting_pos: tuple) -> list :
     current_position = starting_pos
     coming_from: Direction = None
     path: list[tuple] = []
@@ -165,3 +165,16 @@ def iterative_getPath (matrix: list[str], starting_pos: tuple) -> list :
 
     return None
 
+def hasAdjacentTileFlooded(matrix: list[list], position: tuple, floodedChar: str):
+    (posX, posY) = position
+
+    minX = max(0, posX-1)
+    maxX = min(len(matrix), posX+2)
+    minY = max(0, posY-1)
+    maxY = min(len(matrix[posX]), posY+2)
+
+    for x in range(minX, maxX):
+        for y in range(minY, maxY):
+            if matrix[x][y] == floodedChar:
+                return True
+    return False
