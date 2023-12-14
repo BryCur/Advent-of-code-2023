@@ -2,24 +2,42 @@ from utils import *
 import itertools
 
 stone_map: list[str] = []
+target_cycle = 1000000000
 with open("day-14/input.txt") as file:
     stone_map = list(map(str.strip, file.readlines()))
 
-#pretty_print_list(stone_map)
-reversed_map = reverse_string_list(stone_map)
-#pretty_print_list(reversed_map)
 
-processed_reversed_map = []
-for line in reversed_map:
-    shifted_line = shift_stones_in_line(line)
-    processed_reversed_map.append(shifted_line)
+current_load = None
+load_history = []
+map_history = []
+current_map = stone_map.copy()
+while True:
 
-reversed_reversed_map = reverse_string_list(processed_reversed_map)
 
-# pretty_print_list(reversed_reversed_map)
+    current_map = tilt_map_north(current_map)
+    current_map = tilt_map_west(current_map)
+    current_map = tilt_map_south(current_map)
+    current_map = tilt_map_east(current_map)
 
-total_load = 0
-for i, line in enumerate(reversed_reversed_map):
-    total_load += (len(reversed_reversed_map) -i)  * line.count("O")
+    current_load = compute_map_load(current_map)
+    load_history.append(current_load)
 
-print(f"part 1 - total load: {total_load}")
+    if current_map in map_history:
+        break
+
+    map_history.append(current_map)
+
+
+start_of_loop = map_history.index(current_map)
+loop = load_history[start_of_loop:]
+loop_length = len(map_history[start_of_loop:])
+cycle_before_loop = len(map_history[:start_of_loop])
+
+print(f"loop of {len(load_history)} cycle found; position of loop start in history: {map_history.index(current_map)} ")
+
+something = (target_cycle - cycle_before_loop) % loop_length
+print(f"part 2 - solution after target cycle: {loop[something-1]}")
+
+
+
+
