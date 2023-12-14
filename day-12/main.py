@@ -17,7 +17,7 @@ for i, (defective, numbers) in enumerate(input):
         
         filled_input = get_filled_string(defective, combi)
 
-        if string_match_sequence(defect_copy, numbers):
+        if string_match_sequence(filled_input, numbers):
             count += 1
 
 print(count)
