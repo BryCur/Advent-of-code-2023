@@ -1,4 +1,5 @@
 from enum import Enum
+import copy
 
 class Direction(Enum): 
     RIGHT = 0
@@ -52,7 +53,7 @@ def getNewBeams(matrix: list, posX: int, posY: int, dir: Direction) -> list:
     return to_process
 
 def beam_matrix_from_starting_tile_and_direction(matrix: list, beamed_matrix: list, starting_beam: tuple[tuple[int, int], Direction]) -> int:
-    beamed_matrix_copy = beamed_matrix.copy()
+    beamed_matrix_copy = copy.deepcopy(beamed_matrix)
     processed_beams : list[tuple[tuple[int, int], Direction]] = []
     beams_to_process : list[tuple[tuple[int, int], Direction]] = [starting_beam]
 
